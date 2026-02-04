@@ -1,6 +1,11 @@
 # EnergyGrid Data Aggregator - Solution
 
+**Author:** Siddhant Jaiswal  
+**Live Deployment:** https://arkahub-full-time-software-engineering.onrender.com/
+
 This solution implements a Node.js client application that fetches real-time telemetry from 500 solar inverters through a mock API, respecting strict rate limits and security protocols.
+
+> **Development Note:** This solution was built with assistance from GitHub Copilot powered by Claude Sonnet 4.5 for efficient development and best practices implementation.
 
 ## Solution Overview
 
@@ -53,7 +58,39 @@ package.json     → Dependencies and scripts
     ```bash
     curl http://localhost:3000/aggregate
     ```
-    pproach & Technical Implementation
+    
+    Or visit: `http://localhost:3000/aggregate` in your browser
+
+5.  **Expected behavior:**
+    - Takes approximately 50 seconds to complete (50 batches × 1 sec rate limit)
+    - Fetches data from all 500 devices (SN-000 to SN-499)
+    - Returns aggregated JSON report with execution metadata
+
+## Live Demo
+
+🌐 **Deployed Application:** https://arkahub-full-time-software-engineering.onrender.com/
+
+Test the live deployment:
+```bash
+# View available endpoints
+curl https://arkahub-full-time-software-engineering.onrender.com/
+
+# Run full aggregation (takes ~50 seconds)
+curl https://arkahub-full-time-software-engineering.onrender.com/aggregate
+```
+
+**Note:** First request may take 30-60 seconds on Render free tier due to cold start.
+
+## Alternative: Run Client Standalone
+
+You can also run the client directly:
+```bash
+node client.js
+```
+
+This will execute the aggregation and print results to console.
+
+## Approach & Technical Implementation
 
 ### Rate Limiting Strategy
 - **Custom Queue**: Sequential processing with `async/await`
@@ -116,26 +153,71 @@ Mock API endpoint (used internally by client).
 }
 ```
 
-## Railway Deployment
+## Deployment (Render)
 
-### Deploy to Railway
+This application is deployed on **Render** at:  
+🌐 https://arkahub-full-time-software-engineering.onrender.com/
+
+### Deploy Your Own Instance on Render
 
 1. **Push to Git repository** (GitHub/GitLab)
+   ```bash
+   git remote add origin https://github.com/YOUR_USERNAME/your-repo.git
+   git branch -M main
+   git push -u origin main
+   ```
 
-2. **Create new project on Railway:**
-   - Connect your repository
-   - Railway auto-detects Node.js project
-   - Uses `npm start` from package.json
+2. **Create new Web Service on Render:**
+   - Go to [render.com](https://render.com) and login
+   - Click "New +" → "Web Service"
+   - Connect your GitHub repository
+   - Render auto-detects Node.js project
 
-3. **Environment variables:**
-   - `PORT` is auto-configured by Railway
-   - No additional env vars needed
+3. **Configuration:**
+   - **Build Command:** `npm install`
+   - **Start Command:** `npm start`
+   - **Environment:** Node
+   - No additional environment variables needed (`PORT` is auto-configured)
 
-4. **Access your deployment:**
-   - Railway provides a public URL
-   - Call `https://your-app.railway.app/aggregate` to run aggregation
+4. **Deploy:**
+   - Click "Create Web Service"
+   - Render will build and deploy automatically
+   - You'll receive a public URL: `https://your-app.onrender.com`
+
+5. **Test your deployment:**
+   ```bash
+   curl https://your-app.onrender.com/aggregate
+   ```
+
+### Deployment Results
+
+**Live Deployment Stats:**
+- ✅ All 500 devices fetched successfully
+- ✅ 0 failed batches
+- ✅ ~49-50 seconds execution time
+- ✅ Perfect rate limit compliance
 
 ### Local Testing Before Deploy
+
+## Development Tools
+
+This solution was developed using:
+- **GitHub Copilot** with **Claude Sonnet 4.5** for AI-assisted coding
+- **Visual Studio Code** as the primary IDE
+- **Node.js** runtime environment
+- **Git** for version control
+- **Render** for production deployment
+
+## Author
+
+**Siddhant Jaiswal**
+- GitHub: [@sddhantjaiii](https://github.com/sddhantjaiii)
+- Repository: [Arkahub---Full-Time-Software-Engineering](https://github.com/sddhantjaiii/Arkahub---Full-Time-Software-Engineering)
+
+---
+
+**Assignment Submission for:** EnergyGrid Data Aggregator Coding Challenge  
+**Completion Date:** February 4, 2026
 ```bash
 # Test mock API
 curl -X POST http://localhost:3000/device/real/query \
